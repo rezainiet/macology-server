@@ -38,7 +38,6 @@ async function run() {
             const data = req.body;
             const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
-            console.log(data);
             const updateDoc = {
                 $set: {
                     qty: data.newQty
@@ -52,6 +51,14 @@ async function run() {
             )
             res.send(result);
 
+        });
+
+        app.delete('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = productCollection.deleteOne(filter);
+
+            res.send(result);
         })
     }
     finally {
