@@ -56,8 +56,14 @@ async function run() {
         app.delete('/products/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: ObjectId(id) };
-            const result = productCollection.deleteOne(filter);
+            const result = await productCollection.deleteOne(filter);
 
+            res.send(result);
+        });
+
+        app.post('/products', async (req, res) => {
+            const product = req.body;
+            const result = await productCollection.insertOne(product);
             res.send(result);
         })
     }
