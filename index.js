@@ -65,6 +65,21 @@ async function run() {
             const product = req.body;
             const result = await productCollection.insertOne(product);
             res.send(result);
+        });
+
+        app.get('/allproducts', async (req, res) => {
+            const query = {};
+            const curosr = productCollection.find(query);
+            const result = await curosr.toArray();
+            res.send(result);
+        });
+
+        app.get('/allproducts/:supplier', async (req, res) => {
+            const supplier = req.params.supplier;
+            const query = { supp: supplier };
+            const items = productCollection.find(query);
+            const result = await items.toArray();
+            res.send(result);
         })
     }
     finally {
