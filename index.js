@@ -52,7 +52,6 @@ async function run() {
                 options
             )
             res.send(result);
-
         });
 
         app.delete('/products/:id', async (req, res) => {
