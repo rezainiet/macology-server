@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 4000;
 require('dotenv').config()
@@ -20,6 +21,17 @@ async function run() {
         await client.connect();
         const productCollection = client.db('macology').collection('products');
 
+        // Auth
+
+        app.post('/login', async (req, res) => {
+            const user = req.body;
+            const accesstoken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+                expiresIn: '1d'
+            });
+            res.send({ accesstoken });
+        })
+
+        // service
         app.get('/products', async (req, res) => {
             const query = {};
             const curosr = productCollection.find(query);
